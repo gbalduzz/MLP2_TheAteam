@@ -31,7 +31,7 @@ train = scaler.transform(train)
 # Train the Model
 start = time.clock()
 print("start training")
-regr = svm.SVC(decision_function_shape='ovr')
+regr = svm.SVC(decision_function_shape='ovr',  probability=True)
 regr.fit(train,y)
 finish = time.clock()
 print("training time: ", finish-start)
@@ -48,6 +48,6 @@ file.close()
 #test = append_ratio(test, "preprocessed/ratio_testing.csv")
 test = scaler.transform(test)
 
-prediction = regr.predict(test)
+prediction = regr.predict_proba(test)[:,1]
 postprocess.format(prediction, "predictions.csv")
 print("done")
