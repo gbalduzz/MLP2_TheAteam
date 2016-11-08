@@ -2,7 +2,7 @@
 ## It assumes the folders set_train and set_test are present in this directory.
 ########## input ########
 declare -a Ns=(278 138) #number of files in train / test folder.
-declare -a starts=(1 1)
+declare -a starts=(248 1)
 threads=4
 #########################
 
@@ -35,7 +35,8 @@ for type in train test; do
 	if [ $id -eq 0 ]; then
 	    wait
 	    echo "$type $i" > ../last_done.tmp
- 	fi
+	    rm *.gz
+	fi
     done
     wait
     rm ../last_done.tmp

@@ -1,6 +1,6 @@
 from modules import  preprocessing
 import numpy as np
-from sklearn import preprocessing, linear_model
+from sklearn import preprocessing, svm
 from modules import postprocess
 import h5py
 import time
@@ -31,14 +31,14 @@ train = scaler.transform(train)
 # Train the Model
 start = time.clock()
 print("start training")
-regr = linear_model.SGDClassifier(n_iter=5, n_jobs=-1)
+regr = svm.SVC(decision_function_shape='ovr')
 regr.fit(train,y)
 finish = time.clock()
 print("training time: ", finish-start)
 del train
 
 #print model parameters
-#np.savetxt('wheights_output.csv', np.row_stack((regr.intercept_, regr.coef_)))
+#np.savetxt('wheights_output.csv', np.row_stack((regr.intercept_, regr.dual_coef_)))
 
 
 # Make Predictions and save

@@ -5,7 +5,7 @@ import h5py
 # Size of the data block to be averaged.
 block_dims = np.array([4,4,4])
 
-f = h5py.File("preprocessed/reduced.hdf5", "w")
+f = h5py.File("preprocessed/test.hdf5", "w")
 
 def load_component(comp_name):
     """
