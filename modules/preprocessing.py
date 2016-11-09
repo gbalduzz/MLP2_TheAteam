@@ -13,18 +13,40 @@ def remove_zero_columns(x,n_train,tollerance=0):
 
 max
 
-def block_data(x, l):
+def block_sum(x, nb):
     """
     :param x: array to reduce
-    :param l: 3D vector of block lengths. must divide exactly x.shape
+    :param nb: number of blocks per dimension. must divide exactly x.shape
     :return:  return block sums of the x array
     """
-    assert(((np.array(x.shape) % l == 0).all()))
-    new_shape = np.array(x.shape) / l;
-    res = np.zeros(new_shape)
-    for i0 in range(new_shape[0]) :
-        for i1 in range(new_shape[1]):
-            for i2 in range(new_shape[2]):
+    assert(((np.array(x.shape) % nb == 0).all()))
+    l = np.array(x.shape) / nb
+    res = np.zeros(nb)
+    for i0 in range(nb[0]) :
+        for i1 in range(nb[1]):
+            for i2 in range(nb[2]):
                 res[i0,i1,i2] = np.sum(np.ndarray.flatten(  x[ i0*l[0] : (i0+1)*l[0], i1*l[1] : (i1+1)*l[1], i2*l[2] : (i2+1)*l[2]]))
 
+    return res
+
+def concatenate_hystogram(x, nbins=40): #or auto maybe?
+    #res  = np.array(x.shape[0], nbins)
+    res = []
+    for i in range(x.shape[0]):
+        hist, _ = np.histogram(x[i], bins=nbins)
+        res = np.append(res, hist)
+    return res
+
+def blocks(x,nb):
+    assert (((np.array(x.shape) % nb == 0).all()))
+    l = np.array(x.shape) / nb
+    res = np.zeros([np.prod(nb),np.prod(l)])
+    count = 0
+    for i0 in range(nb[0]):
+        for i1 in range(nb[1]):
+            for i2 in range(nb[2]):
+                res[count] = np.ndarray.flatten(
+                    x[i0 * l[0]: (i0 + 1) * l[0], i1 * l[1]: (i1 + 1) * l[1],
+                    i2 * l[2]: (i2 + 1) * l[2]])
+                count += 1
     return res

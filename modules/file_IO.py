@@ -3,24 +3,26 @@ import numpy as np
 import os
 import modules.preprocessing as prp
 #from multiprocessing.pool import ThreadPool
+def crop(x):
+    return x[19:154, 24:186, 8:152]
 
-def load_directory(dirname, block_length):
+
+def load_directory(dirname, n_blocks, n_bins):
     """
     :param dirname: relative dir path
     :return: np. array with n_files, n_features dimensions
     """
-    assert(len(block_length) == 3)
+    assert(len(n_blocks) == 3)
 
     path=os.getcwd()+"/"+dirname
     filenames = [name for name in os.listdir(path) if name.split('.')[-1]=='nii']
     n = len(filenames)
-    #n = 10 #debug
 
     type = filenames[0].split('_')[0]
     assert(type == "train" or type=="test")
     sample_shape = nibabel.load(path+filenames[0]).shape
     four_d = (len(sample_shape) == 4)
-    n_features = np.prod(sample_shape)/np.prod(block_length)
+    n_features = np.prod(n_blocks)*n_bins
     x = np.zeros([n,n_features])
 
     #pool = ThreadPool(NUM_THREADS)
@@ -28,7 +30,7 @@ def load_directory(dirname, block_length):
         filename = path+"/"+type+"_"+str(i+1)+".nii"
         data=nibabel.load(filename).get_data()
         if four_d: data = data[:,:,:,0]
-        x[i]= np.ndarray.flatten(prp.block_data(data, block_length))
+        x[i]= prp.concatenate_hystogram(prp.blocks(crop(data), n_blocks), n_bins)
 
     return x
 
