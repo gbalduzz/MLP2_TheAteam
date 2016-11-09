@@ -31,7 +31,7 @@ train = scaler.transform(train)
 # Train the Model
 start = time.clock()
 print("start training")
-regr = svm.SVC(decision_function_shape='ovr',  probability=True)
+regr = svm.SVC(decision_function_shape='ovr',  probability=True, class_weight='balanced')
 regr.fit(train,y)
 finish = time.clock()
 print("training time: ", finish-start)
