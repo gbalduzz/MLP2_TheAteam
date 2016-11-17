@@ -4,6 +4,7 @@ from sklearn import preprocessing, svm
 from modules import postprocess
 import h5py
 import time
+from  modules.kernels import min_histo
 
 print("startup")
 
@@ -31,7 +32,7 @@ train = scaler.transform(train)
 # Train the Model
 start = time.clock()
 print("start training")
-regr = svm.SVC(decision_function_shape='ovr',  probability=True, class_weight='balanced')
+regr = svm.SVC(decision_function_shape='ovr',  probability=True, class_weight='balanced', kernel=min_histo)
 regr.fit(train,y)
 finish = time.clock()
 print("training time: ", finish-start)
