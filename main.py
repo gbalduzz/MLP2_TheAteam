@@ -26,7 +26,8 @@ train = append_ratio(train, "preprocessed/ratio_training.csv")
 """
 
 # Scaling
-scaler = preprocessing.StandardScaler().fit(train)
+#scaler = preprocessing.StandardScaler().fit(train)
+scaler = preprocessing.MaxAbsScaler().fit(train)
 train = scaler.transform(train)
 
 # Train the Model
@@ -50,5 +51,5 @@ file.close()
 test = scaler.transform(test)
 
 prediction = regr.predict_proba(test)[:,1]
-postprocess.format(prediction, "predictions.csv")
+postprocess.format(prediction, "predictions_absScaler.csv")
 print("done")

@@ -4,7 +4,7 @@
 * Implement CV function
 * Play around with C, $\beta$ and kernel choiche (gaussian or min)
 ###Giovanni
-* scale on positive value
+*  (done) scale on positive value
 *  make the min kernel faster.
 ### Giovanni + Samarth
 *  Look into decision tree.
