@@ -10,5 +10,5 @@
 *  Look into decision tree.
 
 # later
-*  fall back on original dataset
+*  (done) fall back on original dataset
 *  play around with number of blocks
