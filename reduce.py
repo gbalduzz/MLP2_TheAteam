@@ -20,8 +20,8 @@ def load_component(comp_name):
     data = np.concatenate((data,
                            file_IO.load_directory("set_test/" + comp_name + "/", n_blocks, n_bins)
                           ), axis = 0)
-    #return preprocessing.remove_zero_columns(data, n_train), n_train
-    return data, n_train
+    return preprocessing.remove_zero_columns(data, n_train), n_train
+    #return data, n_train
 
 data, n_train = load_component("")
 #data = np.concatenate((data1, data2, data3), axis=1)
