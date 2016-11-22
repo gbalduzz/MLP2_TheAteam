@@ -1,6 +1,7 @@
 from modules import  preprocessing
 import numpy as np
-from sklearn import preprocessing, svm
+from sklearn import preprocessing
+from sklearn.ensemble import RandomForestClassifier
 from modules import postprocess
 import h5py
 import time
@@ -26,14 +27,14 @@ train = append_ratio(train, "preprocessed/ratio_training.csv")
 """
 
 # Scaling
-#scaler = preprocessing.StandardScaler().fit(train)
-scaler = preprocessing.MaxAbsScaler().fit(train)
+scaler = preprocessing.StandardScaler().fit(train)
+#scaler = preprocessing.MaxAbsScaler().fit(train)
 train = scaler.transform(train)
 
 # Train the Model
 start = time.clock()
 print("start training")
-regr = svm.SVC(decision_function_shape='ovr',  probability=True, class_weight='balanced', kernel=min_histo)
+regr = RandomForestClassifier(n_jobs=-1, oob_score=True, n_estimators=5000)
 regr.fit(train,y)
 finish = time.clock()
 print("training time: ", finish-start)
@@ -51,5 +52,5 @@ file.close()
 test = scaler.transform(test)
 
 prediction = regr.predict_proba(test)[:,1]
-postprocess.format(prediction, "predictions_absScaler.csv")
+postprocess.format(prediction, "predictions.csv")
 print("done")
